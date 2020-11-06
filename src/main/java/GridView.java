@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
-public class GridView extends JComponent {
+public class GridView extends JComponent{
 
     private Grid grid;
-    public static final int CELL_SIZE = 30;
+    public static final int CELL_SIZE = 40;
+    public static final int SPACING_BETWEEN_CELLS = 2;
+
 
     public GridView(Grid grid) {
         this.grid = grid;
@@ -18,23 +21,31 @@ public class GridView extends JComponent {
     }
 
     void paintGrid(Graphics g) {
-        Square[][] board = grid.getBoard();
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                g.setColor(Color.LIGHT_GRAY);
-                g.fillRect(board[x][y].getX(), board[x][y].getY(),CELL_SIZE, CELL_SIZE);
-                g.setColor(Color.BLACK);
-                g.drawRect(board[x][y].getX(), board[x][y].getY(),CELL_SIZE, CELL_SIZE);  //outline
+        ArrayList<Square> board2= new ArrayList<>();
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.GRAY);
+        for (int i = 0; i < getWidth()/40; i++) {
+            for (int j = 0; j < getHeight()/45; j++) {  //the height is divided by 45 here to allow for extra space on the bottom- to put the buttons
+                g.fillRect(SPACING_BETWEEN_CELLS+i*CELL_SIZE,
+                           SPACING_BETWEEN_CELLS+j*CELL_SIZE,
+                        CELL_SIZE-SPACING_BETWEEN_CELLS*SPACING_BETWEEN_CELLS,
+                        CELL_SIZE-SPACING_BETWEEN_CELLS*SPACING_BETWEEN_CELLS);
+                board2.add(new Square(SPACING_BETWEEN_CELLS+i*CELL_SIZE, SPACING_BETWEEN_CELLS+j*CELL_SIZE));
             }
         }
+        grid.setBoard2(board2);
     }
 
     void paintAliveCells(Graphics g) {
-        for (Square s : grid.getAliveSquares()) {
-            g.setColor(Color.YELLOW);
-            g.fillRect(s.getX() * CELL_SIZE, s.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-            g.setColor(Color.BLACK);
-            g.drawRect(s.getX() * CELL_SIZE, s.getY() * CELL_SIZE, CELL_SIZE, CELL_SIZE);  //outline
+        if (!grid.getAliveSquares().isEmpty()) {
+            for (Square s : grid.getAliveSquares()) {
+                g.setColor(Color.YELLOW);
+                g.fillRect(SPACING_BETWEEN_CELLS+s.getX()*CELL_SIZE,
+                           SPACING_BETWEEN_CELLS+s.getY()*CELL_SIZE,
+                        CELL_SIZE-SPACING_BETWEEN_CELLS*SPACING_BETWEEN_CELLS,
+                        CELL_SIZE-SPACING_BETWEEN_CELLS*SPACING_BETWEEN_CELLS);
+            }
         }
     }
 
