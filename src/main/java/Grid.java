@@ -1,10 +1,21 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Grid {
 
     private Square[][] board;
 
-    private List<Square> aliveSquares;
+    public ArrayList<Square> getBoard2() {
+        return board2;
+    }
+
+    public void setBoard2(ArrayList<Square> board2) {
+        this.board2 = board2;
+    }
+
+    private ArrayList<Square> board2;
+
+    private List<Square> aliveSquares = new ArrayList<>();
     private List<Square> deadSquares;
 
     int WIDTH = 30;
