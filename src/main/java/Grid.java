@@ -31,8 +31,8 @@ public class Grid {
     /**
      * for GardenView
      */
-    public List<Square> getDeadSquares() {
-        return deadSquares;
+    public Square[][] getBoard() {
+        return board;
     }
 
     /**
@@ -43,12 +43,23 @@ public class Grid {
     }
 
     /**
+     * for the "clear" button.
+     */
+    public void clearGrid() {
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                board[x][y].setDead();
+            }
+        }
+    }
+
+
+    /**
      * for the "next generation" button.
      */
-    public void nextGeneration() {
+    public void getNextGeneration() {
         Square[][] newBoard = new Square[WIDTH][HEIGHT];
         aliveSquares.clear();
-        deadSquares.clear();
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
@@ -67,7 +78,6 @@ public class Grid {
                 aliveSquares.add(square);
                 square.setAlive();
             } else {
-                deadSquares.add(square);
                 square.setDead();
             }
         } else { //if current square is dead
@@ -101,11 +111,6 @@ public class Grid {
                 this.board[square.getX() - 1][square.getY()], //West
                 this.board[square.getX() + 1][square.getY() - 1]}; //NorthWest
     }
-
-    public Square[][] getBoard() {
-        return board;
-    }
-
 }
 
 //Don't forget Test
